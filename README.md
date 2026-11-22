@@ -1,5 +1,5 @@
 # pushpush
-My accepted solutions from different coding platforms are here
+An extension which will upload my accepted solutions from different coding platforms on github repo
 
 **Usernames**
 LeetCode: klu2300032803
