@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: system-ui, sans-serif; width: 320px; padding: 12px; font-size: 13px; }
+    h3 { margin: 0 0 10px; }
+    h4 { margin: 14px 0 4px; }
+    label { display: block; margin-top: 8px; font-weight: 600; }
+    input[type="text"], input[type="password"] { width: 100%; box-sizing: border-box; padding: 6px; margin-top: 3px; }
+    .row label { display: block; margin: 4px 0; font-weight: 400; }
+    .plat { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+    .plat label { display: inline-flex; align-items: center; gap: 4px; margin: 0; font-weight: 400; }
+    button { margin-top: 10px; margin-right: 6px; padding: 6px 12px; cursor: pointer; }
+    .code { font-size: 22px; font-weight: 700; letter-spacing: 2px; margin: 8px 0; font-family: monospace; }
+    .box { border: 1px solid #ccc; border-radius: 6px; padding: 10px; }
+    .muted { color: #666; }
+    .err { color: #c62828; }
+    #status, #last { margin-top: 10px; color: #555; word-break: break-word; }
+    details { margin-top: 12px; }
+    hr { margin: 14px 0; border: 0; border-top: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h3>LeetPush</h3>
+
+  <div class="box">
+    <!-- not connected -->
+    <div id="s-none">
+      <div class="row">
+        <label><input type="radio" name="scope" value="public_repo" checked /> Public repos only (safer)</label>
+        <label><input type="radio" name="scope" value="repo" /> Private repos too</label>
+      </div>
+      <button id="connect">Connect GitHub</button>
+      <div id="noconfig" class="muted" hidden>Developer: set GITHUB_CLIENT_ID in config.js, or use a token under Advanced.</div>
+    </div>
+
+    <!-- waiting for the user to enter the code on github.com -->
+    <div id="s-pending" hidden>
+      <div>Enter this code at github.com/login/device:</div>
+      <div class="code" id="usercode"></div>
+      <button id="open">Open GitHub</button><button id="copy">Copy code</button><button id="cancel">Cancel</button>
+      <div class="muted" style="margin-top:8px">Waiting for you to approve...</div>
+    </div>
+
+    <!-- connected -->
+    <div id="s-connected" hidden>
+      Connected as <b id="login"></b>
+      <button id="logout">Disconnect</button>
+    </div>
+
+    <!-- error -->
+    <div id="s-error" hidden>
+      <div class="err" id="errmsg"></div>
+      <button id="retry">Try again</button>
+    </div>
+  </div>
+
+  <label>Repository
+    <input id="repo" type="text" list="repos" placeholder="username/dsa-solutions" />
+    <datalist id="repos"></datalist>
+  </label>
+  <div class="row">
+    <button id="create">Create "dsa-solutions" repo</button>
+    <label><input type="checkbox" id="private" /> Make it private</label>
+  </div>
+
+  <label>Branch
+    <input id="branch" type="text" placeholder="main" />
+  </label>
+  <label>Folder (optional)
+    <input id="folder" type="text" placeholder="solutions" />
+  </label>
+
+  <label>Platforms</label>
+  <div class="plat">
+    <label><input type="checkbox" data-p="leetcode" checked /> LeetCode</label>
+    <label><input type="checkbox" data-p="codeforces" checked /> Codeforces</label>
+    <label><input type="checkbox" data-p="codechef" checked /> CodeChef</label>
+    <label><input type="checkbox" data-p="hackerrank" checked /> HackerRank</label>
+    <label><input type="checkbox" data-p="gfg" checked /> GeeksforGeeks</label>
+  </div>
+
+  <button id="save">Save</button><button id="test">Test repo</button>
+  <div id="status"></div>
+  <div id="last"></div>
+
+  <details>
+    <summary>Advanced: use a personal access token instead</summary>
+    <label>Token (Contents: read/write)
+      <input id="pat" type="password" placeholder="github_pat_..." />
+    </label>
+  </details>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
